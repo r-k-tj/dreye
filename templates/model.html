@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Blindness Detection App</title>
+  <link rel="shortcut icon" href="../static/images/DR_Logo.png" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <!-- Main HTML Style CSS-->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+  <!-- navbar -->
+  <header class="navbar navbar-expand-sm navbar-dark bg-dark flex-column flex-md-row bd-navbar">
+    <a class="navbar-brand" href="/">
+      <img src="../static/images/DR_Logo.png" alt="logo" style="width:40px; height:40px">
+    </a>
+    <div class="navbar-nav-scroll">
+      <ul class="navbar-nav bd-navbar-nav flex-row">
+        <li class="nav-item">
+          <a class="nav-link active" href="/"
+            onclick="ga('send', 'event', 'Navbar', 'Community links', 'Bootstrap');">DrEye</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="/Facts"
+            onclick="ga('send', 'event', 'Navbar', 'Community links', 'Bootstrap');">Facts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="/Image_Processing"
+            onclick="ga('send', 'event', 'Navbar', 'Community links', 'Docs');">Image
+            Processing</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="/Model"
+            onclick="ga('send', 'event', 'Navbar', 'Community links', 'Examples');">Model</a>
+        </li>
+      </ul>
+    </div>
+
+    <ul class="nav navbar-nav navbar-right flex-row ml-md-auto d-none d-md-flex">
+      <li class="menu">
+        <a target="#_blank" href="https://github.com/velmavasquez/Blindness-Detection-App" style="padding-right:20px">
+          <img width=40px height=40px src="../static/images/Github-Logo-white.svg">
+        </a>
+      </li>
+    </ul>
+  </header>
+
+  <!-- jumbotron & intro -->
+
+  <!-- <div class="row"> -->
+    <div class="jumbotron text-center">
+      <div class="overlay"></div>
+      <div class="inner">
+        <h1><span>DrEye </span></h1>
+        <h3 class="h3-white">Classification Model</h3>
+      </div>
+    </div>
+  <!-- </div> -->
+  <!-- Navigation -->
+  <section id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+
+        <div class="col-lg-12 text-left">
+            <br>
+            <h3 class="section-subheading text-muted">Convolutional Neural Network</h3>
+            <br>
+            <p>
+                We use a convolutional neural network (CNN) for the classification of retina
+                 images into 5 categories. CNN is one  of the most popular algorithms for deep learning,
+                  a type of machine learning in which a model learns to perform classification tasks
+                   directly from images, video, text, or sound.<sup id="cite_ref-2" class="reference"><a href="https://www.mathworks.com/solutions/deep-learning/convolutional-neural-network.html">[1]</a></sup>
+                CNNs are particularly useful for finding patterns in images to recognize objects,
+                 faces, and scenes. They learn directly from image data, using patterns to classify
+                  images and eliminating the need for manual feature extraction.
+                Applications that call for object recognition and computer vision — such as self-driving
+                 vehicles and face-recognition applications — rely heavily on CNNs.
+            </p>
+
+        </div>
+        <div class="col-lg-12 text-left">
+          <br>
+          <h3 class="section-subheading text-muted">Model Structure</h3>
+          <br>
+        </div>
+        <div class="col-lg-12 text-left">
+          <p>
+              Our model consists of an input layer, 5 hidden layers and a dense layer. The figure below shows the structure of the model,
+              a more detailed diagram of the model can be found <a data-toggle="modal" href="#fullmodel">here</a>.
+              
+              Often the hidden layers in a CNN consist of <a href="../static/images/conv_process.jpg">3 operations</a>; Convolution, Activation and Pooling.
+              Due to overfitting issues we also added Dropout to each hidden layer of our model.
+          </p>
+
+          <br>
+          <div class="col-lg-12 text-center">
+              <img src="../static/images/model_diagram.png" height="400" alt="">
+          </div>
+          <br>
+          
+
+          <p>
+
+            <ul>
+                
+                <li><a data-toggle="modal" href="#convolution">Convolution: </a>Convolution is the
+                     dot product between a filter array and a portion of input the image. The operation is repeated
+                      until all elements of the input image have been acted on by the filter.
+                     A filter is a set 'weights' to be apply on the input image. The weights determine the features
+                     extracted from the image, <a data-toggle="modal" href="#examples">see examples</a>.
+                </li>
+                <br>
+
+                <li><a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)">Activation: </a>We use a RELU activation
+                        after each convolution. RELU function keeps the positive elements of an array and substitutes
+                         the negative elements with 0s, only the activated features are carried forward into the next layer.</li>
+                <br>
+                
+                <li><a data-toggle="modal" href="#maxpooling">Pooling: </a>Pooling simplifies the output by performing downsampling,
+                       reducing the number of parameters that the network needs to learn. Our model uses Max pooling, which looks at a region
+                       of an input array and keeps the maximum value within that region.
+                        <sup id="cite_ref-2" class="reference"><a href="https://computersciencewiki.org/index.php/Max-pooling_/_Pooling">[2]</a></sup>
+                </li>
+                <br>
+                <li><a href="https://en.wikipedia.org/wiki/Dropout_(neural_networks)">Dropout: </a>A technique used to
+                        reduce overfitting. During the training process the contribution of random elements of the 
+                        network are temporarily ignored.
+                        <sup id="cite_ref-2" class="reference"><a href="https://machinelearningmastery.com/dropout-regularization-deep-learning-models-keras/">[3]</a>
+                </li>
+
+
+
+            </ul>
+            </p>
+        </div>
+          <div class="col-lg-12 text-left">
+              <br>
+                <h3 class="section-subheading text-muted">Data & Training</h3>
+              <br>
+         </div>
+         <div class="col-lg-12 text-left">
+          <p>
+              <ul>
+                  <li>
+                      Our data set consisted of a total of 6,917 images obtained from 2 kaggle competitions and the
+                      Indian Diabetic Retinopathy Image Dataset (IDRiD):
+                      <ul>
+                          <li>
+                            <a href="https://www.kaggle.com/c/aptos2019-blindness-detection">APTOS 2019 Blindness Detection</a>
+                          </li>
+                          <li>
+                            <a href="https://www.kaggle.com/c/diabetic-retinopathy-detection">Diabetic Retinopathy Detection</a>
+                          </li>
+                          <li>
+                            <a href="https://idrid.grand-challenge.org/">IDRiD</a>
+                          </li>
+                      </ul>
+                      <div class="col-lg-12 text-center">
+                        <img src="../static/images/dist_images.png" height="400" alt="">
+                     </div>
+                  </li>
+                  <li>
+                      We used sklearn to calculate a class weights for each of the five categories, since the number
+                      of images in the data set was different for each category. 
+                </li>
+                <li>
+                    We used 85% of the images for training and 15% testing. 
+                </li>
+                  <li>
+                      We used image augmentation during the training process. Some of the training images
+                      were randomly flipped either horizontaly or verticaly, therefore the set of training
+                      images between two epochs was never the same. Image augmentation was implemented using 
+                      ImageDataGenerator library from Keras. 
+                  </li>
+                  <li>
+                      We implemeted an early stopping condition that would stop the model if the training loss did not
+                      improve after a specified number of epochs.
+                  </li>
+                  <li>
+                    To cut down on processing time training was performed in Google Colab. Colab allowed us to use up 22GB of memory
+                    and it also allowed us to enable a GPU.
+                </li>
+              </ul>
+          </p>
+
+          </div>
+          <!-- convolution-example-matrix -->
+         <div class="col-lg-12 text-left">
+            <br>
+                <h3 class="section-subheading text-muted">Results</h3>
+            <br>
+         </div>
+
+
+         <br>
+         <div class="col-lg-12 text-center">
+            <img src="../static/images/accuracy.png" height="350" alt="">
+            <img src="../static/images/loss.png" height="350" alt="">
+         </div>
+         <br>
+         <br>
+         <div class="col-lg-12 text-center">
+            <img src="../static/images/norm_cm.png" height="400" alt="">
+         </div>
+         <!-- <br> -->
+
+
+              <div class="col-lg-12 text-left">
+              <p>
+                  <!-- <br> -->
+                  <h3>Metrics Summary</h3>
+                  <!-- <br> -->
+                    <ul>
+                        <li>
+                          <a href="https://en.wikipedia.org/wiki/Accuracy_and_precision">Accuracy: </a> 0.766
+                        </li>
+                        <li>
+                          <a href="https://towardsdatascience.com/common-loss-functions-in-machine-learning-46af0ffc4d23">Loss: </a> 0.575
+                        </li>
+                        <li>
+                          <a href="https://en.wikipedia.org/wiki/Precision_and_recall">Precision: </a> 0.763
+                        </li>
+                        <li>
+                          <a href="https://en.wikipedia.org/wiki/Precision_and_recall">Recall: </a> 0.766
+                        </li>                                              
+                        <li>
+                          <a href="https://en.wikipedia.org/wiki/F1_score">F1 score: </a> 0.760
+                        </li>
+                        <li>
+                          <a href="https://en.wikipedia.org/wiki/Cohen%27s_kappa">Kappa: </a> 0.840
+                        </li>
+                    </ul>
+                </p>
+            </div>
+
+       
+
+    <!-- modal code -->
+    <div class="modal fade" id="fullmodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="exampleModalLongTitle">Model Diagram</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <!-- <div class="row">
+                            <div class="col-lg-12 text-left">
+                                <p>
+                                    comments
+                                </p>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <img src="../static/images/model.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="convolution" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="exampleModalLongTitle">Convolution Operation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <!-- <div class="row">
+                            <div class="col-lg-12 text-left">
+                                <p>
+                                    comments
+                                </p>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <img src="../static/images/convolution-example-matrix.gif" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="examples" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="exampleModalLongTitle">Filter Examples</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <!-- <div class="row">
+                            <div class="col-lg-12 text-left">
+                                <p>
+                                    comments
+                                </p>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <img src="../static/images/filters.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
+    <div class="modal fade" id="maxpooling" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="exampleModalLongTitle">Max Pooling</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <!-- <div class="row">
+                        <div class="col-lg-12 text-left">
+                                <p>
+                                    comments
+                                </p>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-lg-12 text-right">
+                            <img src="../static/images/MaxpoolSample2.png" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- end modal code -->
+
+      </div>
+
+
+    </div>
+  </section>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/3.0.3/dc.min.js"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>

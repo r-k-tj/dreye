@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blindness Detection App</title>
+    <link rel="shortcut icon" href="../static/images/DR_Logo.png" />
+    <!-- Style Sheets-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dc/3.1.0/dc.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <!------------ navbar ---------->
+    <header class="navbar navbar-expand-sm navbar-dark bg-dark flex-column flex-md-row bd-navbar">
+        <a class="navbar-brand" href="/">
+            <img src="../static/images/DR_Logo.png" alt="logo" style="width:40px; height:40px">
+        </a>
+        <div class="navbar-nav-scroll">
+            <ul class="navbar-nav bd-navbar-nav flex-row">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/"
+                        onclick="ga('send', 'event', 'Navbar', 'Community links', 'Bootstrap');">Blindness Detection
+                        App</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/Facts"
+                        onclick="ga('send', 'event', 'Navbar', 'Community links', 'Bootstrap');">Facts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/Image_Processing"
+                        onclick="ga('send', 'event', 'Navbar', 'Community links', 'Docs');">Image
+                        Processing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/Model"
+                        onclick="ga('send', 'event', 'Navbar', 'Community links', 'Examples');">Model</a>
+                </li>
+            </ul>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right flex-row ml-md-auto d-none d-md-flex">
+            <li class="menu">
+                <a target="#_blank" href="https://github.com/velmavasquez/Blindness-Detection-App"
+                    style="padding-right:20px">
+                    <img width=40px height=40px src="../static/images/Github-Logo-white.svg">
+                </a>
+            </li>
+        </ul>
+    </header>
+
+    <!-- jumbotron & intro -->
+    <div class="jumbotron jumbotron-fluid text-center">
+        <div class="overlay"></div>
+        <div class="inner">
+            <h1><span>Classification of Diabetic Retinopathy Severity </span></h1>
+            <h3 class="h3-white">Image Processing</h3>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-left">
+                    <h3 class="section-subheading text-muted">OpenCV library</h3>
+                    <br>
+                </div>
+                <div class="col-lg-12 text-left">
+                    <p>We utilize the OpenCV (Open Source Computer Vision) library to manipulate the pictures
+                        in order to extract some useful information from them. We can reduce noises as well as control
+                        the brightness and color contrast. OpenCV is an open source computer vision and machine learning
+                        software library. OpenCV was built to provide a common infrastructure for computer vision
+                        applications and to accelerate the use of machine perception in commercial products.<sup
+                            id="cite_ref-2" class="reference"><a href="https://opencv.org/about">[1]</a></sup>
+                        <a href="https://docs.opencv.org/master/">OpenCV documentation can be found here.</a>
+                    </p>
+
+                </div>
+                <br>
+                <div class="col-lg-12 text-left">
+                    <br>
+                    <h3 class="section-subheading text-muted">Color</h3>
+                    <br>
+                </div>
+                <div class="col-lg-12 text-left">
+                    <p>Images come with many different lighting conditions; some images are very dark and difficult
+                        to visualize. We decided to convert the images to grayscale for better visualization. A
+                        grayscale is simple. It represents images and morphologies by the intensity of black and
+                        white, which means it has only one channel. To see images in grayscale, we need to convert
+                        the color mode into gray.</p>
+                </div>
+                <div class="col-lg-12 text-center">
+                    <img src="../static/images/original_images.png" alt="">
+                    <img src="../static/images/gray_images.png" alt="">
+                    <br>
+                </div>
+                <br>
+                <div class="col-lg-12 text-left">
+                    <br>
+                    <h3 class="section-subheading text-muted">Cropping</h3>
+                    <br>
+                </div>
+                <div class="col-lg-12 text-left">
+                    <p>Many images have unnecessary and uninformative black areas/borders. We decided to remove
+                        these areas with cropping. We keep only rows and columns which contain at least one pixel
+                        with a brightness value exceeding our predefined tolerance value of 7.</p>
+                </div>
+                <div class="col-lg-12 text-center">
+                    <img src="../static/images/crop_images.png" alt="">
+                    <br>
+                </div>
+                <br>
+                <div class="col-lg-12 text-left">
+                    <br>
+                    <h3 class="section-subheading text-muted">Blurring and Masking</h3>
+                    <br>
+                </div>
+                <div class="col-lg-12 text-left">
+                    <p>We know that by smoothing an image we suppress most of the high-frequency components. Blurring is one
+                        technique we can use for this purpose. Ideally, we need to find an adequate amount of blurring
+                        without losing desirable edges. <a data-toggle="modal" href="#gaussianBlur">Gaussian filtering</a>
+                        is highly effective in removing Gaussian noise from the image. <sup id="cite_ref-2"
+                            class="reference"><a
+                                href="https://www.tutorialkart.com/opencv/python/opencv-python-gaussian-image-smoothing/">[2]</a></sup>
+                    </p>
+                    <div class="col-lg-12 text-center">
+                            <img src="../static/images/g_blurred.png" alt="">
+                    </div>
+                    <p>We then use this blurred image to create a "mask". Since the blurring technique suppressed most of the
+                        high frequency components, when we subtract the blurred image from the original image, 
+                        the result is what we call a mask. This mask will have most of the high-frequency 
+                        components that were blocked by the smoothing filter. Adding the mask back to the original image 
+                        will enhance the high frequency components. OpenCV has a function which uses a weighted average 
+                        of the original image and the blurred image that allows us to accomplish this task.
+                        <sup id="cite_ref-2" class="reference"><a
+                                href="https://theailearner.com/tag/cv2-addweighted/">[3]</a></sup>
+                    </p>
+                    <p>Finally, since our images come in many sizes, we make things consistent by resizing each image to 224 X 224 pixels.
+                        </p>
+                </div>
+                <div class="col-lg-12 text-center">
+                    <img src="../static/images/blurred_resize.png" alt="">
+                </div>
+            </div>
+    </section>
+
+    <!-- modal code -->
+    <div class="modal fade" id="gaussianBlur" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Gaussian Filter</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-12 text-left">
+                                <p>Gaussian distribution (also known as normal distribution) is a bell-shaped curve, and
+                                    it is assumed that during any measurement values will follow a normal distribution
+                                    with an equal number of measurements above and below the mean value.</p>
+                                <p>Gaussian blurring is using the kernel whose values have a Gaussian distribution. The
+                                    values are generated by a Gaussian function so it requires a sigma value for its
+                                    parameter. As you can see in the image below, the values of the kernel go higher
+                                    near the center and go smaller near the corner. In terms of image processing, any
+                                    sharp edges in images are smoothed while minimizing too much blurring.
+                                </p>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 text-right">
+                                <img src="../static/images/gaussian1.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end modal code -->
+
+    <!-- java script libraries -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/3.0.3/dc.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+
+
+
+</body>
+
+</html>
